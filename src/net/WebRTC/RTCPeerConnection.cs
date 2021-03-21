@@ -480,7 +480,7 @@ namespace SIPSorcery.Net
 
                     _dtlsHandle = new DtlsSrtpTransport(
                                 IceRole == IceRolesEnum.active ?
-                                (IDtlsSrtpPeer)new DtlsSrtpClient(_dtlsCertificate, _dtlsPrivateKey) :
+                                new DtlsSrtpClient(_dtlsCertificate, _dtlsPrivateKey) :
                                 (IDtlsSrtpPeer)new DtlsSrtpServer(_dtlsCertificate, _dtlsPrivateKey));
 
                     _dtlsHandle.OnAlert += OnDtlsAlert;
@@ -546,8 +546,9 @@ namespace SIPSorcery.Net
             var sctpAnn = RemoteDescription.Media.Where(x => x.Media == SDPMediaTypesEnum.application).FirstOrDefault();
             ushort destinationPort = sctpAnn?.SctpPort != null ? sctpAnn.SctpPort.Value : SCTP_DEFAULT_PORT;
 
-            _rtcSctpTransport = new RTCSctpTransport(_dtlsHandle.Transport, _dtlsHandle.IsClient);
-            _peerSctpAssociation = new RTCPeerSctpAssociation(_rtcSctpTransport, Guid.NewGuid().ToString(), SCTP_DEFAULT_PORT, destinationPort);
+            _rtcSctpTransport = new RTCSctpTransport(_dtlsHandle.Transport, _dtlsHandle.IsClient, SCTP_DEFAULT_PORT, destinationPort);
+            _rtcSctpTransport.Start();
+            _peerSctpAssociation = _rtcSctpTransport.RTCSctpAssociation;
             _peerSctpAssociation.OnAssociated += () =>
             {
                 logger.LogDebug("SCTP association successfully initialised.");

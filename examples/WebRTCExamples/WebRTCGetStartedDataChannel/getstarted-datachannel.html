@@ -6,7 +6,7 @@
 
         const STUN_URL = "stun:stun.sipsorcery.com";
         const WEBSOCKET_URL = "ws://127.0.0.1:8081/"
-        //const DATA_CHANNEL_LABEL = "dc1"
+        const DATA_CHANNEL_LABEL = "dc1"
 
         var dc, pc, ws;
         var isClosed = true;
@@ -20,6 +20,13 @@
             pc = new RTCPeerConnection({ iceServers: [{ urls: STUN_URL }] });
 
             pc.onicecandidate = evt => evt.candidate && ws.send(JSON.stringify(evt.candidate));
+
+            pc.onconnectionstatechange = () => {
+                console.log("onconnectionstatechange: " + pc.connectionState);
+                if (pc.connectionState == "connected") {
+                    pc.createDataChannel(DATA_CHANNEL_LABEL);
+                }
+            }
 
             pc.ondatachannel = (evt) => {
                 console.log(`ondatachannel event: ${evt}`);

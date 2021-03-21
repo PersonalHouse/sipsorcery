@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebRTCTestPatternRest", "We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebRTCGetStartedDataChannel", "WebRTCGetStartedDataChannel\WebRTCGetStartedDataChannel.csproj", "{552390C8-EF01-41FC-8E7A-56EF345FF335}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SIPSorcery", "..\..\src\SIPSorcery.csproj", "{F5B9AA0E-994C-4ABF-81AD-E412B2297AC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -293,6 +295,18 @@ Global
 		{552390C8-EF01-41FC-8E7A-56EF345FF335}.Release|x64.Build.0 = Release|Any CPU
 		{552390C8-EF01-41FC-8E7A-56EF345FF335}.Release|x86.ActiveCfg = Release|Any CPU
 		{552390C8-EF01-41FC-8E7A-56EF345FF335}.Release|x86.Build.0 = Release|Any CPU
+		{F5B9AA0E-994C-4ABF-81AD-E412B2297AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5B9AA0E-994C-4ABF-81AD-E412B2297AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5B9AA0E-994C-4ABF-81AD-E412B2297AC7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F5B9AA0E-994C-4ABF-81AD-E412B2297AC7}.Debug|x64.Build.0 = Debug|Any CPU
+		{F5B9AA0E-994C-4ABF-81AD-E412B2297AC7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F5B9AA0E-994C-4ABF-81AD-E412B2297AC7}.Debug|x86.Build.0 = Debug|Any CPU
+		{F5B9AA0E-994C-4ABF-81AD-E412B2297AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5B9AA0E-994C-4ABF-81AD-E412B2297AC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5B9AA0E-994C-4ABF-81AD-E412B2297AC7}.Release|x64.ActiveCfg = Release|Any CPU
+		{F5B9AA0E-994C-4ABF-81AD-E412B2297AC7}.Release|x64.Build.0 = Release|Any CPU
+		{F5B9AA0E-994C-4ABF-81AD-E412B2297AC7}.Release|x86.ActiveCfg = Release|Any CPU
+		{F5B9AA0E-994C-4ABF-81AD-E412B2297AC7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

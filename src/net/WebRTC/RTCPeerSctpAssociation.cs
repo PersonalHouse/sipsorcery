@@ -75,15 +75,16 @@ namespace SIPSorcery.Net
         /// </summary>
         public readonly ushort maxChannels;
 
-        private RTCPeerSctpAssociation _rtcSctpAssociation;
+        public RTCPeerSctpAssociation RTCSctpAssociation { get; private set; }
 
         private bool _isStarted;
         private bool _isClosed;
 
-        public RTCSctpTransport(DatagramTransport dtlsTransport, bool isDtlsClient)
+        public RTCSctpTransport(DatagramTransport dtlsTransport, bool isDtlsClient, ushort sourcePort, ushort destinationPort)
         {
             transport = dtlsTransport;
             IsDtlsClient = isDtlsClient;
+            RTCSctpAssociation = new RTCPeerSctpAssociation(this, Guid.NewGuid().ToString(), sourcePort, destinationPort);
         }
 
         /// <summary>
@@ -104,10 +105,9 @@ namespace SIPSorcery.Net
         /// </summary>
         /// <param name="sourcePort">The source port to use for the SCTP association.</param>
         /// <param name="destinationPort">The destination port to use for the SCTP association.</param>
-        public void Associate(ushort sourcePort, ushort destinationPort)
+        public void Associate()
         {
-            _rtcSctpAssociation = new RTCPeerSctpAssociation(this, Guid.NewGuid().ToString(), sourcePort, destinationPort);
-            _rtcSctpAssociation.Init();
+            RTCSctpAssociation.Init();
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace SIPSorcery.Net
         /// </summary>
         private void DoReceive(object state)
         {
-            byte[] recvBuffer = new byte[_rtcSctpAssociation.ARwnd];
+            byte[] recvBuffer = new byte[RTCSctpAssociation.ARwnd];
 
             while (!_isClosed)
             {
@@ -140,7 +140,12 @@ namespace SIPSorcery.Net
                     else if (bytesRead > 0)
                     {
                         var pkt = SctpPacket.Parse(recvBuffer, 0, bytesRead);
-                        _rtcSctpAssociation.OnPacketReceived(pkt);
+                        logger.LogDebug($"SCTP Packet received {pkt.Header.DestinationPort}<-{pkt.Header.SourcePort}.");
+                        foreach(var chunk in pkt.Chunks)
+                        {
+                            logger.LogDebug($" chunk {chunk.KnownType}.");
+                        }
+                        RTCSctpAssociation.OnPacketReceived(pkt);
                     }
                     else if (bytesRead == DtlsSrtpTransport.DTLS_RECEIVE_ERROR_CODE)
                     {
